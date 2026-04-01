@@ -4,7 +4,6 @@ Starter for [React](https://react.dev/) apps that combine [Mantine](https://mant
 
 ## Stack
 
-
 | Area          | Choice                                                                                                                                                   |
 | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Runtime / UI  | React 19                                                                                                                                                 |
@@ -15,43 +14,21 @@ Starter for [React](https://react.dev/) apps that combine [Mantine](https://mant
 | Lint / format | [oxlint](https://oxc.rs) with type-aware checks; [oxfmt](https://oxc.rs) with import sorting and Tailwind class sorting                                  |
 | Types         | TypeScript (strict)                                                                                                                                      |
 
-
 PostCSS is configured for Mantine’s preset and breakpoint variables (`postcss.config.cjs`), which pairs with Mantine’s CSS workflow alongside Tailwind.
-
-## Prerequisites
-
-- [Bun](https://bun.sh/) (recommended; this repo includes `bun.lock`) **or** Node.js 20+ with your preferred package manager.
-
-## Getting started
-
-```bash
-# install dependencies
-bun install
-
-# start dev server (http://localhost:5173 by default)
-bun run dev
-```
-
-With npm:
-
-```bash
-npm install
-npm run dev
-```
 
 ## Scripts
 
-
-| Script      | Description                               |
-| ----------- | ----------------------------------------- |
-| `dev`       | Vite dev server with HMR                  |
-| `build`     | `tsc -b` then production build to `dist/` |
-| `preview`   | Serve the production build locally        |
-| `lint`      | Run oxlint                                |
-| `lint:fix`  | oxlint with `--fix`                       |
-| `fmt`       | Format with oxfmt                         |
-| `fmt:check` | Verify formatting (CI-friendly)           |
-
+| Script         | Description                                              |
+| -------------- | -------------------------------------------------------- |
+| `dev`          | Vite dev server with HMR                                 |
+| `build`        | Production build to `dist/`                              |
+| `preview`      | Serve the production build locally                       |
+| `lint`         | Run oxlint                                               |
+| `lint:fix`     | oxlint with `--fix`                                      |
+| `format`       | Verify formatting with oxfmt (`--check`; CI-friendly)    |
+| `format:fix`   | Apply oxfmt formatting                                   |
+| `quality`      | Run `lint` then `format`                                 |
+| `quality:fix`  | Run `lint:fix` then `format:fix`                         |
 
 ## Project layout
 
@@ -63,4 +40,3 @@ npm run dev
 ## Path alias
 
 Imports can use `@/` for `src/`, for example `import X from "@/components/foo"` (see `vite.config.ts` and `tsconfig.app.json`).
-
