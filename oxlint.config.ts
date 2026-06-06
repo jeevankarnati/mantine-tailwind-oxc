@@ -1,7 +1,7 @@
 import { defineConfig } from "oxlint";
 
 export default defineConfig({
-  ignorePatterns: [".agents/**"],
+  ignorePatterns: [".agents/**", ".husky/**"],
   categories: {
     correctness: "warn",
   },
