@@ -1,5 +1,6 @@
 import { Box, Button, Group, TextInput } from "@mantine/core";
 import { motion, useReducedMotion } from "framer-motion";
+import { TRANSITION_NONE, TRANSITION_QUICK } from "@/utils/motion";
 import { useTodoStore } from "./store";
 
 export default function TodoInput() {
@@ -7,7 +8,7 @@ export default function TodoInput() {
   const setInputValue = useTodoStore((s) => s.setInputValue);
   const addTodo = useTodoStore((s) => s.addTodo);
   const shouldReduceMotion = useReducedMotion();
-  const quickTransition = shouldReduceMotion ? { duration: 0 } : { duration: 0.12 };
+  const quickTransition = shouldReduceMotion ? TRANSITION_NONE : TRANSITION_QUICK;
 
   return (
     <Box px="xl" py="md">

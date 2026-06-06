@@ -1,6 +1,7 @@
 import { Box, Group, Progress, Stack, Text, ThemeIcon, Title } from "@mantine/core";
 import { IconListCheck } from "@tabler/icons-react";
 import { motion, useReducedMotion } from "framer-motion";
+import { TRANSITION_NONE, TRANSITION_QUICK } from "@/utils/motion";
 import ThemeSwitcher from "../../components/theme-switcher";
 
 type Props = {
@@ -11,7 +12,7 @@ type Props = {
 
 export default function TodoHeader({ total, remaining, completionPct }: Props) {
   const shouldReduceMotion = useReducedMotion();
-  const quickTransition = shouldReduceMotion ? { duration: 0 } : { duration: 0.12 };
+  const quickTransition = shouldReduceMotion ? TRANSITION_NONE : TRANSITION_QUICK;
 
   return (
     <Box px="xl" pt="xl" pb="md">

@@ -3,6 +3,7 @@ import { useHover } from "@mantine/hooks";
 import { IconCheck, IconPencil, IconTrash, IconX } from "@tabler/icons-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useState } from "react";
+import { TRANSITION_NONE, TRANSITION_QUICK } from "@/utils/motion";
 import type { TodoItem } from "./types";
 import { useTodoStore } from "./store";
 
@@ -107,7 +108,7 @@ export default function TodoItem({ todo }: Props) {
   const [focusedWithin, setFocusedWithin] = useState(false);
   const { hovered, ref } = useHover<HTMLDivElement>();
   const shouldReduceMotion = useReducedMotion();
-  const quickTransition = shouldReduceMotion ? { duration: 0 } : { duration: 0.12 };
+  const quickTransition = shouldReduceMotion ? TRANSITION_NONE : TRANSITION_QUICK;
   const isActive = hovered || focusedWithin;
 
   if (editing) {

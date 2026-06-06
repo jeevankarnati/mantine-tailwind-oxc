@@ -1,6 +1,7 @@
 import { Box, Stack, Text } from "@mantine/core";
 import { IconCircleCheck, IconListCheck } from "@tabler/icons-react";
 import { motion, useReducedMotion } from "framer-motion";
+import { TRANSITION_NONE, TRANSITION_SUBTLE } from "@/utils/motion";
 import type { Filter } from "./types";
 
 type Props = {
@@ -24,9 +25,7 @@ const EMPTY_CONFIG: Record<Filter, { icon: React.ReactNode; text: string }> = {
 
 export default function TodoEmptyState({ filter }: Props) {
   const shouldReduceMotion = useReducedMotion();
-  const subtleTransition = shouldReduceMotion
-    ? { duration: 0 }
-    : { duration: 0.18, ease: [0.2, 0.7, 0.3, 1] as const };
+  const subtleTransition = shouldReduceMotion ? TRANSITION_NONE : TRANSITION_SUBTLE;
   const { icon, text } = EMPTY_CONFIG[filter];
 
   return (

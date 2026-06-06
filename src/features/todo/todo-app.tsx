@@ -1,6 +1,7 @@
 import { Box, Divider, Paper, Stack } from "@mantine/core";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/utils/lib";
+import { TRANSITION_NONE, TRANSITION_SUBTLE } from "@/utils/motion";
 import type { TodoItem as TodoItemType } from "./types";
 import { useTodoStore } from "./store";
 import TodoEmptyState from "./todo-empty-state";
@@ -14,9 +15,7 @@ export default function TodoApp() {
   const filter = useTodoStore((s) => s.filter);
   const setFilter = useTodoStore((s) => s.setFilter);
   const shouldReduceMotion = useReducedMotion();
-  const subtleTransition = shouldReduceMotion
-    ? { duration: 0 }
-    : { duration: 0.18, ease: [0.2, 0.7, 0.3, 1] as const };
+  const subtleTransition = shouldReduceMotion ? TRANSITION_NONE : TRANSITION_SUBTLE;
 
   const { activeTodos, completedTodos } = todos.reduce(
     (acc, t) => {
