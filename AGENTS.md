@@ -12,3 +12,13 @@
 - Components are automatically memoised equivalent to `React.memo`.
 
 Manual memoisation should only be added in the rare cases where the compiler emits a bailout warning in the build output.
+
+## Quality checks
+
+After completing any task, always run:
+
+```bash
+bun run quality
+```
+
+This runs lint and format checks. Fix any issues before considering the task done.

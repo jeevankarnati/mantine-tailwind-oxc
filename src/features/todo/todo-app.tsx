@@ -25,15 +25,20 @@ export default function TodoApp() {
     },
     { activeTodos: [] as TodoItemType[], completedTodos: [] as TodoItemType[] }
   );
-  const visibleTodos =
-    filter === "all" ? todos : filter === "active" ? activeTodos : completedTodos;
   const completionPct =
     todos.length === 0 ? 0 : Math.round((completedTodos.length / todos.length) * 100);
+
+  const visibleTodos = { all: todos, active: activeTodos, completed: completedTodos }[filter];
+  const wrapperInitial = shouldReduceMotion ? false : { opacity: 0, y: 10, scale: 0.985 };
+  const itemInitial = shouldReduceMotion ? false : { opacity: 0, y: -6, scale: 0.98 };
+  const itemExit = shouldReduceMotion
+    ? { opacity: 0 }
+    : { opacity: 0, y: 6, scale: 0.98, height: 0 };
 
   return (
     <div className={cn("flex min-h-screen items-start justify-center px-4 pt-16")}>
       <motion.div
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 10, scale: 0.985 }}
+        initial={wrapperInitial}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={subtleTransition}
         style={{ width: "100%", maxWidth: 520 }}
@@ -62,13 +67,9 @@ export default function TodoApp() {
                   <motion.div
                     key={todo.id}
                     layout
-                    initial={shouldReduceMotion ? false : { opacity: 0, y: -6, scale: 0.98 }}
+                    initial={itemInitial}
                     animate={{ opacity: 1, y: 0, scale: 1, height: "auto" }}
-                    exit={
-                      shouldReduceMotion
-                        ? { opacity: 0 }
-                        : { opacity: 0, y: 6, scale: 0.98, height: 0 }
-                    }
+                    exit={itemExit}
                     transition={subtleTransition}
                     style={{ overflow: "hidden" }}
                   >

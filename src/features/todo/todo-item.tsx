@@ -10,6 +10,57 @@ type Props = {
   todo: TodoItem;
 };
 
+type TodoItemActionsProps = {
+  isActive: boolean;
+  shouldReduceMotion: boolean | null;
+  transition: { duration: number };
+  onEdit: () => void;
+  onDelete: () => void;
+};
+
+function TodoItemActions({
+  isActive,
+  shouldReduceMotion,
+  transition,
+  onEdit,
+  onDelete,
+}: TodoItemActionsProps) {
+  return (
+    <motion.div
+      animate={{
+        opacity: isActive ? 1 : 0,
+        x: isActive || shouldReduceMotion ? 0 : 4,
+      }}
+      transition={transition}
+    >
+      <Group gap={4}>
+        <Tooltip label="Edit" withArrow position="top" openDelay={400}>
+          <ActionIcon
+            variant="subtle"
+            color="gray"
+            size="sm"
+            onClick={onEdit}
+            aria-label="Edit todo"
+          >
+            <IconPencil size={14} />
+          </ActionIcon>
+        </Tooltip>
+        <Tooltip label="Delete" withArrow position="top" openDelay={400}>
+          <ActionIcon
+            variant="subtle"
+            color="red"
+            size="sm"
+            onClick={onDelete}
+            aria-label="Delete todo"
+          >
+            <IconTrash size={14} />
+          </ActionIcon>
+        </Tooltip>
+      </Group>
+    </motion.div>
+  );
+}
+
 type EditFormProps = {
   initialLabel: string;
   onConfirm: (label: string) => void;
@@ -106,38 +157,13 @@ export default function TodoItem({ todo }: Props) {
             </Text>
           }
         />
-        <motion.div
-          animate={{
-            opacity: isActive ? 1 : 0,
-            x: isActive || shouldReduceMotion ? 0 : 4,
-          }}
+        <TodoItemActions
+          isActive={isActive}
+          shouldReduceMotion={shouldReduceMotion}
           transition={quickTransition}
-        >
-          <Group gap={4}>
-            <Tooltip label="Edit" withArrow position="top" openDelay={400}>
-              <ActionIcon
-                variant="subtle"
-                color="gray"
-                size="sm"
-                onClick={() => setEditing(true)}
-                aria-label="Edit todo"
-              >
-                <IconPencil size={14} />
-              </ActionIcon>
-            </Tooltip>
-            <Tooltip label="Delete" withArrow position="top" openDelay={400}>
-              <ActionIcon
-                variant="subtle"
-                color="red"
-                size="sm"
-                onClick={() => deleteTodo(todo.id)}
-                aria-label="Delete todo"
-              >
-                <IconTrash size={14} />
-              </ActionIcon>
-            </Tooltip>
-          </Group>
-        </motion.div>
+          onEdit={() => setEditing(true)}
+          onDelete={() => deleteTodo(todo.id)}
+        />
       </Group>
     </motion.div>
   );
