@@ -18,17 +18,17 @@ PostCSS is configured for Mantine’s preset and breakpoint variables (`postcss.
 
 ## Scripts
 
-| Script         | Description                                              |
-| -------------- | -------------------------------------------------------- |
-| `dev`          | Vite dev server with HMR                                 |
-| `build`        | Production build to `dist/`                              |
-| `preview`      | Serve the production build locally                       |
-| `lint`         | Run oxlint                                               |
-| `lint:fix`     | oxlint with `--fix`                                      |
-| `format`       | Verify formatting with oxfmt (`--check`; CI-friendly)    |
-| `format:fix`   | Apply oxfmt formatting                                   |
-| `quality`      | Run `lint` then `format`                                 |
-| `quality:fix`  | Run `lint:fix` then `format:fix`                         |
+| Script        | Description                                           |
+| ------------- | ----------------------------------------------------- |
+| `dev`         | Vite dev server with HMR                              |
+| `build`       | Production build to `dist/`                           |
+| `preview`     | Serve the production build locally                    |
+| `lint`        | Run oxlint                                            |
+| `lint:fix`    | oxlint with `--fix`                                   |
+| `format`      | Verify formatting with oxfmt (`--check`; CI-friendly) |
+| `format:fix`  | Apply oxfmt formatting                                |
+| `quality`     | Run `lint` then `format`                              |
+| `quality:fix` | Run `lint:fix` then `format:fix`                      |
 
 ## Project layout
 

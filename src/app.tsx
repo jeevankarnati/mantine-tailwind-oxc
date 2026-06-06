@@ -1,9 +1,5 @@
-import ThemeSwitcher from "./components/theme-switcher";
+import TodoApp from "@/features/todo/todo-app";
 
 export default function App() {
-  return (
-    <div className="p-4">
-      <ThemeSwitcher />
-    </div>
-  );
+  return <TodoApp />;
 }
