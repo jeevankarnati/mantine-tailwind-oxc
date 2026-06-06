@@ -22,3 +22,6 @@ dist-ssr
 *.sw?
 
 bun.lock
+
+.claude
+.fallow

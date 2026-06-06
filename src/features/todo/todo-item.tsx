@@ -4,15 +4,16 @@ import { IconCheck, IconPencil, IconTrash, IconX } from "@tabler/icons-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import type { TodoItem } from "./types";
+import { useTodoStore } from "./store";
 
 type Props = {
   todo: TodoItem;
-  onToggle: (id: string) => void;
-  onDelete: (id: string) => void;
-  onEdit: (id: string, label: string) => void;
 };
 
-export default function TodoItem({ todo, onToggle, onDelete, onEdit }: Props) {
+export default function TodoItem({ todo }: Props) {
+  const toggleTodo = useTodoStore((s) => s.toggleTodo);
+  const deleteTodo = useTodoStore((s) => s.deleteTodo);
+  const editTodo = useTodoStore((s) => s.editTodo);
   const [editing, setEditing] = useState(false);
   const [editValue, setEditValue] = useState(todo.label);
   const [focusedWithin, setFocusedWithin] = useState(false);
@@ -27,7 +28,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit }: Props) {
 
   function confirmEdit() {
     const trimmed = editValue.trim();
-    if (trimmed) onEdit(todo.id, trimmed);
+    if (trimmed) editTodo(todo.id, trimmed);
     setEditing(false);
   }
 
@@ -84,7 +85,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit }: Props) {
       <Group justify="space-between" px="xl" py="sm">
         <Checkbox
           checked={todo.completed}
-          onChange={() => onToggle(todo.id)}
+          onChange={() => toggleTodo(todo.id)}
           label={
             <Text
               size="sm"
@@ -119,7 +120,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit }: Props) {
                 variant="subtle"
                 color="red"
                 size="sm"
-                onClick={() => onDelete(todo.id)}
+                onClick={() => deleteTodo(todo.id)}
                 aria-label="Delete todo"
               >
                 <IconTrash size={14} />

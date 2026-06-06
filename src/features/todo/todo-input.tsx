@@ -1,13 +1,11 @@
 import { Box, Button, Group, TextInput } from "@mantine/core";
 import { motion, useReducedMotion } from "framer-motion";
+import { useTodoStore } from "./store";
 
-type Props = {
-  value: string;
-  onChange: (value: string) => void;
-  onAdd: () => void;
-};
-
-export default function TodoInput({ value, onChange, onAdd }: Props) {
+export default function TodoInput() {
+  const inputValue = useTodoStore((s) => s.inputValue);
+  const setInputValue = useTodoStore((s) => s.setInputValue);
+  const addTodo = useTodoStore((s) => s.addTodo);
   const shouldReduceMotion = useReducedMotion();
   const quickTransition = shouldReduceMotion ? { duration: 0 } : { duration: 0.12 };
 
@@ -19,9 +17,9 @@ export default function TodoInput({ value, onChange, onAdd }: Props) {
           size="sm"
           placeholder="Add a new task..."
           aria-label="New task"
-          value={value}
-          onChange={(e) => onChange(e.currentTarget.value)}
-          onKeyDown={(e) => e.key === "Enter" && onAdd()}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.currentTarget.value)}
+          onKeyDown={(e) => e.key === "Enter" && addTodo()}
           radius="md"
         />
         <motion.div
@@ -29,7 +27,7 @@ export default function TodoInput({ value, onChange, onAdd }: Props) {
           whileTap={shouldReduceMotion ? undefined : { y: 0, scale: 0.99 }}
           transition={quickTransition}
         >
-          <Button onClick={onAdd} radius="md" px="lg" size="sm">
+          <Button onClick={addTodo} radius="md" px="lg" size="sm">
             Add
           </Button>
         </motion.div>

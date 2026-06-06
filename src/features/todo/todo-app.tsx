@@ -1,7 +1,7 @@
 import { Box, Divider, Paper, Stack } from "@mantine/core";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { useState } from "react";
-import type { Filter, TodoItem as TodoItemType } from "./types";
+import type { TodoItem as TodoItemType } from "./types";
+import { useTodoStore } from "./store";
 import TodoEmptyState from "./todo-empty-state";
 import TodoFilterTabs from "./todo-filter-tabs";
 import TodoHeader from "./todo-header";
@@ -9,32 +9,13 @@ import TodoInput from "./todo-input";
 import TodoItem from "./todo-item";
 
 export default function TodoApp() {
-  const [todos, setTodos] = useState<TodoItemType[]>([]);
-  const [inputValue, setInputValue] = useState("");
-  const [filter, setFilter] = useState<Filter>("all");
+  const todos = useTodoStore((s) => s.todos);
+  const filter = useTodoStore((s) => s.filter);
+  const setFilter = useTodoStore((s) => s.setFilter);
   const shouldReduceMotion = useReducedMotion();
   const subtleTransition = shouldReduceMotion
     ? { duration: 0 }
     : { duration: 0.18, ease: [0.2, 0.7, 0.3, 1] as const };
-
-  function addTodo() {
-    const trimmed = inputValue.trim();
-    if (!trimmed) return;
-    setTodos((prev) => [...prev, { id: crypto.randomUUID(), label: trimmed, completed: false }]);
-    setInputValue("");
-  }
-
-  function toggleTodo(id: string) {
-    setTodos((prev) => prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)));
-  }
-
-  function deleteTodo(id: string) {
-    setTodos((prev) => prev.filter((t) => t.id !== id));
-  }
-
-  function editTodo(id: string, label: string) {
-    setTodos((prev) => prev.map((t) => (t.id === id ? { ...t, label } : t)));
-  }
 
   const { activeTodos, completedTodos } = todos.reduce(
     (acc, t) => {
@@ -63,7 +44,7 @@ export default function TodoApp() {
             completionPct={completionPct}
           />
           <Divider />
-          <TodoInput value={inputValue} onChange={setInputValue} onAdd={addTodo} />
+          <TodoInput />
           <Divider />
           <TodoFilterTabs
             filter={filter}
@@ -91,12 +72,7 @@ export default function TodoApp() {
                     style={{ overflow: "hidden" }}
                   >
                     <Box>
-                      <TodoItem
-                        todo={todo}
-                        onToggle={toggleTodo}
-                        onDelete={deleteTodo}
-                        onEdit={editTodo}
-                      />
+                      <TodoItem todo={todo} />
                       {i < visibleTodos.length - 1 && <Divider />}
                     </Box>
                   </motion.div>
