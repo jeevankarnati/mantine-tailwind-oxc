@@ -2,7 +2,7 @@ import { ActionIcon, Checkbox, Group, Text, TextInput, Tooltip } from "@mantine/
 import { useHover } from "@mantine/hooks";
 import { IconCheck, IconPencil, IconTrash, IconX } from "@tabler/icons-react";
 import { motion, useReducedMotion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { TodoItem } from "./types";
 import { useTodoStore } from "./store";
 
@@ -10,55 +10,65 @@ type Props = {
   todo: TodoItem;
 };
 
+type EditFormProps = {
+  initialLabel: string;
+  onConfirm: (label: string) => void;
+  onCancel: () => void;
+};
+
+function EditForm({ initialLabel, onConfirm, onCancel }: EditFormProps) {
+  const [value, setValue] = useState(initialLabel);
+
+  function handleConfirm() {
+    const trimmed = value.trim();
+    if (trimmed) onConfirm(trimmed);
+  }
+
+  return (
+    <Group gap="xs" px="xl" py="sm">
+      <TextInput
+        flex={1}
+        size="sm"
+        radius="md"
+        value={value}
+        onChange={(e) => setValue(e.currentTarget.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") handleConfirm();
+          if (e.key === "Escape") onCancel();
+        }}
+        autoFocus
+      />
+      <ActionIcon variant="light" color="green" onClick={handleConfirm} aria-label="Confirm edit">
+        <IconCheck size={15} />
+      </ActionIcon>
+      <ActionIcon variant="light" color="gray" onClick={onCancel} aria-label="Cancel edit">
+        <IconX size={15} />
+      </ActionIcon>
+    </Group>
+  );
+}
+
 export default function TodoItem({ todo }: Props) {
   const toggleTodo = useTodoStore((s) => s.toggleTodo);
   const deleteTodo = useTodoStore((s) => s.deleteTodo);
   const editTodo = useTodoStore((s) => s.editTodo);
   const [editing, setEditing] = useState(false);
-  const [editValue, setEditValue] = useState(todo.label);
   const [focusedWithin, setFocusedWithin] = useState(false);
   const { hovered, ref } = useHover<HTMLDivElement>();
   const shouldReduceMotion = useReducedMotion();
-  useEffect(() => {
-    if (!editing) setEditValue(todo.label);
-  }, [todo.label, editing]);
-
-  const isActive = hovered || focusedWithin;
   const quickTransition = shouldReduceMotion ? { duration: 0 } : { duration: 0.12 };
-
-  function confirmEdit() {
-    const trimmed = editValue.trim();
-    if (trimmed) editTodo(todo.id, trimmed);
-    setEditing(false);
-  }
-
-  function cancelEdit() {
-    setEditValue(todo.label);
-    setEditing(false);
-  }
+  const isActive = hovered || focusedWithin;
 
   if (editing) {
     return (
-      <Group gap="xs" px="xl" py="sm">
-        <TextInput
-          flex={1}
-          size="sm"
-          radius="md"
-          value={editValue}
-          onChange={(e) => setEditValue(e.currentTarget.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") confirmEdit();
-            if (e.key === "Escape") cancelEdit();
-          }}
-          autoFocus
-        />
-        <ActionIcon variant="light" color="green" onClick={confirmEdit} aria-label="Confirm edit">
-          <IconCheck size={15} />
-        </ActionIcon>
-        <ActionIcon variant="light" color="gray" onClick={cancelEdit} aria-label="Cancel edit">
-          <IconX size={15} />
-        </ActionIcon>
-      </Group>
+      <EditForm
+        initialLabel={todo.label}
+        onConfirm={(label) => {
+          editTodo(todo.id, label);
+          setEditing(false);
+        }}
+        onCancel={() => setEditing(false)}
+      />
     );
   }
 

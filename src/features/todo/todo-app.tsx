@@ -1,5 +1,6 @@
 import { Box, Divider, Paper, Stack } from "@mantine/core";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { cn } from "@/utils/lib";
 import type { TodoItem as TodoItemType } from "./types";
 import { useTodoStore } from "./store";
 import TodoEmptyState from "./todo-empty-state";
@@ -30,7 +31,7 @@ export default function TodoApp() {
     todos.length === 0 ? 0 : Math.round((completedTodos.length / todos.length) * 100);
 
   return (
-    <div className="flex min-h-screen items-start justify-center px-4 pt-16">
+    <div className={cn("flex min-h-screen items-start justify-center px-4 pt-16")}>
       <motion.div
         initial={shouldReduceMotion ? false : { opacity: 0, y: 10, scale: 0.985 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
