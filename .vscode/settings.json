@@ -9,7 +9,6 @@
     "*.css": "tailwindcss"
   },
   "tailwindCSS.classAttributes": ["class", "className", "ngClass", ".*Styles.*", ".*Classes.*"],
-  "typescript.tsdk": "node_modules/typescript/lib",
   "[json]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
@@ -18,5 +17,6 @@
   },
   "[html]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
-  }
+  },
+  "editor.tabSize": 2
 }
